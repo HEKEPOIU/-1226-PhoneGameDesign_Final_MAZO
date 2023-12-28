@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class BaseGrid : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
