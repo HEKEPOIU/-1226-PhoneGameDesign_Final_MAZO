@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Character
 {
@@ -8,7 +7,6 @@ namespace Character
         [SerializeField] private Vector2Int _startPosition;
         public override void Interact()
         {
-            Destroy(gameObject);
         }
         
         protected override void InitGridObject()
@@ -16,11 +14,6 @@ namespace Character
             base.InitGridObject();
             
             UpdatePosition(_startPosition);
-        }
-
-
-        private void Update()
-        {
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using GirdSystem;
+﻿using GirdSystem;
 using UnityEngine;
 
 namespace Character
@@ -41,13 +40,15 @@ namespace Character
                 return;
             }
             Vector3 newTransformPosition = Grid.GetCellCenterPosition(newPosition.x, newPosition.y);
+            transform.position = newTransformPosition;
+            
             Grid.SetValue(GridPosition.x, GridPosition.y, null);
             GridPosition = newPosition;
-            transform.position = newTransformPosition;
             Grid.SetValue(newPosition.x, newPosition.y, this);
             
             
         }
+        
         
     }
 }

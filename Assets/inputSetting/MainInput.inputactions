@@ -1,0 +1,45 @@
+{
+    "name": "MainInput",
+    "maps": [
+        {
+            "name": "MoveStates",
+            "id": "28d53230-7018-45a0-bf9e-e5fed3782a41",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "195b8293-7b83-46f2-891c-916cb3ab12af",
+                    "expectedControlType": "Analog",
+                    "processors": "Normalize(min=-1,max=1),Clamp(min=-1,max=1)",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c5cb66b2-b00d-4efd-8714-df38e1c80f88",
+                    "path": "<Touchscreen>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d91c4695-c894-495d-9d59-5fa81d2f1371",
+                    "path": "<Pointer>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
