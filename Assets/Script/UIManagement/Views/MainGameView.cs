@@ -1,8 +1,10 @@
 ﻿
 using System;
+using MoreMountains.Feedbacks;
 using SkillSystem.Skill;
 using UIManagement.Element;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -72,7 +74,7 @@ namespace UIManagement.Views
 
         private void CloseDarwCardPanelTimerOnOnTimerEnd()
         {
-            print("CloseDarwCardPanelTimerOnOnTimerEnd");
+            _drawCardButton.interactable = true;
             SetDrawCardPanelActive(false);
         }
 
@@ -175,12 +177,14 @@ namespace UIManagement.Views
         {
             _spawnObjTemp = Instantiate(item.SkillCardPrefab, _drawCardSpawnPoint.transform);
             _spawnObjTemp.transform.localPosition = Vector3.zero;
+            _drawCardButton.interactable = false;
             //這裡可以對她做一點動畫
             _closeDarwCardPanelTimer.StartTimer();
         }
         
         public void SpawnDragonHeadItem(GridPlayerSkillBase item)
         {
+            DestroyGragonBollObjTemp();
             _spawnGragonBollObjTemp = Instantiate(item.SkillBallPrefab, _dragonHeadSpawnPoint.transform);
             _spawnGragonBollObjTemp.transform.localPosition = Vector3.zero;
         }

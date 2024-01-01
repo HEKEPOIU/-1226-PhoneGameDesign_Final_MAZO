@@ -9,6 +9,7 @@ namespace Character
     {
         Food,
         RandomItem,
+        Rock
     }
     public class ItemGridCharacter : BaseGridCharacter
     {

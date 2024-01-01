@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using GirdSystem;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 
 namespace Character
@@ -15,7 +16,7 @@ namespace Character
         {
             StartCoroutine(MoveFront(new Vector2Int(GridPosition.x, Grid.Height-1)));
         }
-        
+
         IEnumerator MoveFront(Vector2Int newPosition)
         { 
             yield return new WaitForSeconds(_moveSpeedPerGrid);
@@ -41,7 +42,6 @@ namespace Character
             }
             
         }
-
 
 
     }

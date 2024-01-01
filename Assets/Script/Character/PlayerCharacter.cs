@@ -13,9 +13,12 @@ namespace Character
         [SerializeField] private Vector2Int _startPosition;
         [SerializeField] private int _maxDashDistance;
         [SerializeField] private GridPlayerSkillBase[] _playerSkills;
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Sprite[] _sprites;
         [HideInInspector] public bool IsUnstoppable = false;
         public event Action OnPlayerBeHit;
         public event Action<int> OnDash;
+        private int _currentSpriteIndex = 0;
 
         private void Start()
         {
@@ -51,6 +54,16 @@ namespace Character
         public void EndDashSkill()
         {
             IsUnstoppable = false;
+        }
+
+        public void ChangeSprite()
+        {
+            _currentSpriteIndex++;
+            if (_currentSpriteIndex >= _sprites.Length)
+            {
+                _currentSpriteIndex = 0;
+            }
+            _spriteRenderer.sprite = _sprites[_currentSpriteIndex];
         }
     }
 }

@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _CurrentParcentage: 0
-    - _CurrentPercentage: 0.75
+    - _CurrentPercentage: 0.65
     - _MaxParcentage: 0.8
     - _MinParcentage: 0.3
     m_Colors:

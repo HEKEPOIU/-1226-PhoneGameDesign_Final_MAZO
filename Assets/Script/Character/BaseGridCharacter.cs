@@ -10,16 +10,17 @@ namespace Character
         public BaseGrid<IGridObject> Grid { get; set; }
         public Vector2Int GridPosition { get; set; }
         public event Action<BaseGridCharacter> OnDeath;
+        public event Action<BaseGridCharacter> OnMove;
 
         public virtual void Move(Vector2Int newPosition)
         {
             IGridObject newPositionObj = Grid.GetValue(newPosition.x, newPosition.y);
             if (newPositionObj != null)
             {
+                OnMove?.Invoke(this);
                 newPositionObj.Interact(this);
                 InteractOther(newPositionObj);
             }
-            
             UpdatePosition(newPosition);
             
         }
@@ -68,6 +69,7 @@ namespace Character
             RemoveFromGrid();
             OnDeath?.Invoke(this);
             OnDeath = null;
+            OnMove = null;
             Destroy(gameObject);
         }
         

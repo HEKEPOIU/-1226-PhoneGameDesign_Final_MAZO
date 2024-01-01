@@ -1,12 +1,11 @@
 ﻿
-using GirdSystem;
 using Manager;
 using Manager.States;
 using Map;
+using MoreMountains.Feedbacks;
 using Player;
 using UIManagement.Element;
 using UIManagement.Views;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UIManagement.Controller
@@ -18,6 +17,7 @@ namespace UIManagement.Controller
         private PlayerController _playerController;
         private MainGameRoundState _cacehRoundState;
         private MapManager _mapManager;
+        private MMF_Player _player;
         private int _currentPlayerSkillIndex = -1;
         private int _clickDrawCardCount = 0;
         private int _cacheDashCount = 0;
@@ -27,6 +27,7 @@ namespace UIManagement.Controller
             _view = GetComponent<MainGameView>();
             _playerController = FindObjectOfType<PlayerController>(true);
             _mapManager = FindObjectOfType<MapManager>(true);
+            _player = GetComponent<MMF_Player>();
         }
         
         public override void Show()
@@ -41,6 +42,7 @@ namespace UIManagement.Controller
             _view.BindDragonHeadButtonEvent(OnUseSkill);
             _playerController.OnActionEnd += OnPlayerActionEnd;
             _playerController.OnPlayerDash += OnPlayerDash;
+            _playerController.OnMove += PlayMoveEffect;
             OwnerUIElement.UIManager.OwnerPlayer.PlayerStates.GridSkillSystem.OnSkillUsed += OnPlayerActionEnd;
             MainGameRule.OnRoundStateChange += OnRoundStateChange;
             _mapManager.ResetMap();
@@ -58,11 +60,18 @@ namespace UIManagement.Controller
             _view.UnBindAllDrawCardButtonEvent();
             _view.UnBindCloseDrawCardPanelTimerEvent(OnCloseDrawCardPanel);
             _view.UnBindAllDragonHeadButtonEvent();
+            _playerController.OnMove -= PlayMoveEffect;
             _playerController.OnActionEnd -= OnPlayerActionEnd;
             _playerController.OnPlayerDash -= OnPlayerDash;
             OwnerUIElement.UIManager.OwnerPlayer.PlayerStates.GridSkillSystem.OnSkillUsed -= OnPlayerActionEnd;
             MainGameRule.OnRoundStateChange -= OnRoundStateChange;
         }
+
+        private void PlayMoveEffect()
+        {
+            _player.PlayFeedbacks();
+        }
+
         private void InitializeHungryBar(float currentHungry, float maxHungry)
         {
             _view.UpdateHungryBar(currentHungry, maxHungry);
@@ -77,6 +86,7 @@ namespace UIManagement.Controller
         {
             //很他媽神奇，下面一定要這樣放，因為unity的uievent系統不知道為啥
             //，如果你在中途把interacterable關掉，他就會暫停你綁定的function，直到下次解綁在開始執行。
+            _player.PlayFeedbacks();
             _view.SetAllCardButtonInteractable(false);
             _playerController.Attack();
         }
@@ -159,6 +169,7 @@ namespace UIManagement.Controller
                     break;
                 case MainGameRoundState.EnemyTurn:
                     OwnerUIElement.UIManager.OwnerPlayer.PlayerStates.ModifyRound();
+                    _playerController.PlayerCharacter.ChangeSprite();
                     break;
             }
         }
@@ -177,6 +188,7 @@ namespace UIManagement.Controller
         
         private void OnUseSkill()
         {
+            _player.PlayFeedbacks();
             _playerController.PlayerStates.GridSkillSystem.UseSkill(_currentPlayerSkillIndex);
             _view.SetGragonHeadButtonActive(false);
             _view.SetAllCardButtonInteractable(false);

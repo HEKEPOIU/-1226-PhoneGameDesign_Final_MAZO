@@ -13,8 +13,8 @@ namespace Character.Spawner
         [SerializeField] protected int _maxSpawnCountPerRound = 3;
         [SerializeField] protected int _startSpawnCount = 20;
         [SerializeField] protected Vector2Int[] _spawnMasks;
-        [Range(0f,1f)] [SerializeField] private float _spawnRate = .7f;
-        public List<T> EnemyList = new List<T>();
+        [Range(0f,1f)] [SerializeField] protected float _spawnRate = .7f;
+        [HideInInspector] public List<T> EnemyList = new List<T>();
         
 
 

@@ -21,7 +21,7 @@ namespace Character.Spawner
 
         private void Start()
         {
-            _enemySpawnerSystem.OnPlayerKillEnemy += GameManager.Instance.Player.PlayerStates.ModifyConquerRate;
+            _enemySpawnerSystem.OnPlayerKillEnemy += OnPlayerKillEnemy;
             _itemSpawnerSystem.OnItemPickedUp += ItemBePickUp;
 
         }
@@ -30,7 +30,7 @@ namespace Character.Spawner
         {
             GameStateBase.OnStateStart -= SwitchGameState;
             MainGameRule.OnRoundStateChange -= OnRoundChange;
-            _enemySpawnerSystem.OnPlayerKillEnemy -= GameManager.Instance.Player.PlayerStates.ModifyConquerRate;
+            _enemySpawnerSystem.OnPlayerKillEnemy -= OnPlayerKillEnemy;
             _itemSpawnerSystem.OnItemPickedUp -= ItemBePickUp;
 
         }
@@ -129,9 +129,20 @@ namespace Character.Spawner
                     print("To DrawCard");
                     _mainGameRule.SwitchRoundState(MainGameRoundState.DrawCard);
                     break;
+                case ItemType.Rock:
+                    print("To Rock");
+                    GameManager.Instance.Player.PlayerStates.UpdateHungry(
+                        GameManager.Instance.Player.PlayerStates.MaxHungry * -arg2);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(arg1), arg1, null);
             }
+        }
+        
+        
+        private void OnPlayerKillEnemy(float obj)
+        {
+            GameManager.Instance.Player.PlayerStates.ModifyConquerRate(obj);
         }
     }
 }

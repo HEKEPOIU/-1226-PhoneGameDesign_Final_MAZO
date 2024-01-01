@@ -14,6 +14,7 @@ namespace Player
         [SerializeField] private StraightAttacker _attackPrefab;
         public event Action OnActionEnd;
         public event Action<int> OnPlayerDash;
+        public event Action OnMove;
         public MainInput MainInput;
         private bool _isRangeAttack = false;
         private int _cacheRangeAttackCount = 0;
@@ -40,8 +41,10 @@ namespace Player
         private void Move(InputAction.CallbackContext ctx)
         {
             float dir = ctx.ReadValue<float>();
+            
             PlayerCharacter.Move(new Vector2Int(PlayerCharacter.GridPosition.x + (int)dir,
                                                             PlayerCharacter.GridPosition.y));
+            OnMove?.Invoke();
             EndMove();
         }
         public void StartMove()
