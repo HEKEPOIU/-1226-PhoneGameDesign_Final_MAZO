@@ -1,5 +1,4 @@
-﻿using Character;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GirdSystem
 {
@@ -8,6 +7,7 @@ namespace GirdSystem
         BaseGrid<IGridObject> Grid { get; set; }
         Vector2Int GridPosition { get; set; }
         void Move(Vector2Int newPosition);
-        void Interact();
+        void Interact(IGridObject interacter);
+        void InteractOther(IGridObject target){}
     }
 }

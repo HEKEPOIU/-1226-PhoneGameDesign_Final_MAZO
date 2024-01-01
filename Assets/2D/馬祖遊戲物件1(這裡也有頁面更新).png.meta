@@ -147,8 +147,8 @@ TextureImporter:
       name: "\u99AC\u7956\u904A\u6232\u7269\u4EF61(\u9019\u88E1\u4E5F\u6709\u9801\u9762\u66F4\u65B0)_6"
       rect:
         serializedVersion: 2
-        x: 2874
-        y: 695
+        x: 2877
+        y: 698
         width: 943
         height: 483
       alignment: 0
@@ -215,7 +215,7 @@ TextureImporter:
         width: 898
         height: 1298
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

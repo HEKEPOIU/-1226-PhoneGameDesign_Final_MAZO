@@ -1,7 +1,8 @@
-﻿using System;
-using Character;
+﻿using Character;
+using Character.Spawner;
 using Manager;
 using Manager.States;
+using SkillSystem;
 using UnityEngine;
 
 namespace Player
@@ -9,17 +10,23 @@ namespace Player
     public class Player : MonoBehaviour
     {
         private BaseGridCharacter _playerCharacter;
-        private PlayerController _playerController;
+        [HideInInspector] public PlayerController PlayerController;
         [HideInInspector] public PlayerStates PlayerStates;
         private PlayerHUD _playerHUD;
         private void Awake()
         {
             //InitPlayerSelf;
             _playerCharacter = GetComponent<PlayerCharacter>();
-            _playerController = GetComponent<PlayerController>();
-            _playerController.PlayerCharacter = _playerCharacter;
+            PlayerController = GetComponent<PlayerController>();
+            //TODO: 這裡不該這樣做，如果我要通用性的話我不該在這裡轉型。
+            PlayerController.PlayerCharacter = (PlayerCharacter)_playerCharacter;
+            
             
             PlayerStates = FindOrCreate<PlayerStates>();
+            PlayerStates.GridSkillSystem = FindOrCreate<GridSkillSystem>();
+            PlayerStates.GridSkillSystem.Owner = this;
+            PlayerStates.GridSkillSystem.GridSpawnerManager = FindObjectOfType<GridSpawnerManager>(true);
+            PlayerController.PlayerStates = PlayerStates;
             _playerHUD = FindOrCreate<PlayerHUD>();
             _playerHUD.Initialize(this);
             GameStateBase.OnStateStart += SwitchGameState;
@@ -27,12 +34,17 @@ namespace Player
         
         private void SwitchGameState(GameStateBase gameState)
         {
-            print("SwitchGameState");
             _playerHUD.RestUI(gameState.StateType);
+            PlayerStates.SetStates(gameState.StateType);
             switch (gameState.StateType)
             {
                 case GameStateType.MainGame:
                     PlayerStates.ResetState(gameState as MainGameState);
+                    _playerCharacter.InitGridObject();
+                    break;
+                case GameStateType.Fail:
+                case GameStateType.TrueSuccess:
+                case GameStateType.Success:
                     break;
             }
         }

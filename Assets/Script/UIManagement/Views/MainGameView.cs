@@ -1,7 +1,9 @@
 ﻿
 using System;
+using SkillSystem.Skill;
 using UIManagement.Element;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UIManagement.Views
@@ -10,9 +12,20 @@ namespace UIManagement.Views
     public class MainGameView : View
     {
         private Slider _hungrySlider;
+        [SerializeField] private Slider _conquerSlider;
+        [SerializeField] private GameObject _drawCardPanel;
+        [SerializeField] private Button _drawCardButton;
+        [SerializeField] private Button _dragonHeadButton;
+        [SerializeField] private GameObject _drawCardSpawnPoint;
+        [SerializeField] private GameObject _dragonHeadSpawnPoint;
+        private Timer _closeDarwCardPanelTimer;
         private Image _hungrySliderfillImage;
         private Button _attactButton;
         private Button _moveButton;
+        private GameObject _spawnObjTemp;
+        private GameObject _spawnGragonBollObjTemp;
+
+        
         private RectTransform _maxRangeTransform;
         private RectTransform _minRangeTransform;
         [SerializeField] private int _rangeIconThickness = 5;
@@ -28,12 +41,25 @@ namespace UIManagement.Views
             _attactButton = transform.Find("MainGame/FooterBorder/BackGround/Cards/AttackButtonCard").GetComponent<Button>();
             _moveButton = transform.Find("MainGame/FooterBorder/BackGround/Cards/MoveButtonCard").GetComponent<Button>();
             _hungrySliderfillImage = _hungrySlider.fillRect.GetComponent<Image>();
+            _closeDarwCardPanelTimer = gameObject.AddComponent<Timer>();
         }
 
         public override void Show()
         {
             base.Show();
             SetDirArrowActive(false);
+            SetGragonHeadButtonActive(false);
+            DestroyGragonBollObjTemp();
+            _closeDarwCardPanelTimer.OnTimerEnd += CloseDarwCardPanelTimerOnOnTimerEnd;
+        }
+        
+        public override void Hide()
+        {
+            base.Hide();
+            SetDirArrowActive(false);
+            SetGragonHeadButtonActive(false);
+            DestroyGragonBollObjTemp();
+            _closeDarwCardPanelTimer.OnTimerEnd -= CloseDarwCardPanelTimerOnOnTimerEnd;
         }
 
 
@@ -42,6 +68,12 @@ namespace UIManagement.Views
             _hungrySlider.maxValue = maxValue;
             _hungrySlider.value = value;
             _hungrySliderfillImage.material.SetFloat("_CurrentPercentage", value / maxValue);
+        }
+
+        private void CloseDarwCardPanelTimerOnOnTimerEnd()
+        {
+            print("CloseDarwCardPanelTimerOnOnTimerEnd");
+            SetDrawCardPanelActive(false);
         }
 
         public void SetRange(float gameRuleHigherHungryRate, float gameRuleLowerHungryRate)
@@ -87,6 +119,40 @@ namespace UIManagement.Views
             }
         }
         
+        public void BindDrawCardButtonEvent(UnityEngine.Events.UnityAction action)
+        {
+            _drawCardButton.onClick.AddListener(action);
+        }
+        
+        public void UnBindAllDrawCardButtonEvent()
+        {
+            _drawCardButton.onClick.RemoveAllListeners();
+        }
+        
+        public void BindDragonHeadButtonEvent(UnityEngine.Events.UnityAction action)
+        {
+            _dragonHeadButton.onClick.AddListener(action);
+        }
+        public void UnBindAllDragonHeadButtonEvent()
+        {
+            _dragonHeadButton.onClick.RemoveAllListeners();
+        }
+        
+        public void SetGragonHeadButtonActive(bool active)
+        {
+            _dragonHeadButton.interactable = active;
+        }
+        
+        public void BindCloseDrawCardPanelTimerEvent(Action action)
+        {
+            _closeDarwCardPanelTimer.OnTimerEnd += action;
+        }
+
+        public void UnBindCloseDrawCardPanelTimerEvent(Action action)
+        {
+            _closeDarwCardPanelTimer.OnTimerEnd -= action;
+        }
+        
         public void SetAllCardButtonInteractable(bool interactable)
         {
             _attactButton.interactable = interactable;
@@ -95,7 +161,40 @@ namespace UIManagement.Views
 
         public void SetDirArrowActive(bool active)
         {
+            if(_dirArror == null) return;
             _dirArror.SetActive(active);
+        }
+        
+        public void UpdateConquerBar(float value, float maxValue)
+        {
+            _conquerSlider.maxValue = maxValue;
+            _conquerSlider.value = value;
+        }
+        
+        public void SpawnDrawCardItem(GridPlayerSkillBase item)
+        {
+            _spawnObjTemp = Instantiate(item.SkillCardPrefab, _drawCardSpawnPoint.transform);
+            _spawnObjTemp.transform.localPosition = Vector3.zero;
+            //這裡可以對她做一點動畫
+            _closeDarwCardPanelTimer.StartTimer();
+        }
+        
+        public void SpawnDragonHeadItem(GridPlayerSkillBase item)
+        {
+            _spawnGragonBollObjTemp = Instantiate(item.SkillBallPrefab, _dragonHeadSpawnPoint.transform);
+            _spawnGragonBollObjTemp.transform.localPosition = Vector3.zero;
+        }
+        
+        public void DestroyGragonBollObjTemp()
+        {
+            if (_spawnGragonBollObjTemp == null) return;
+            Destroy(_spawnGragonBollObjTemp);
+        }
+        
+        public void SetDrawCardPanelActive(bool active)
+        {
+            _drawCardPanel.SetActive(active);
+            Destroy(_spawnObjTemp);
         }
         
     }

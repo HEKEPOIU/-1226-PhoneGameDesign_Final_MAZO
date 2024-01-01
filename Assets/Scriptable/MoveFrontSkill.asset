@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5835c906b147fbbe25a5eedd9b5e77, type: 3}
+  m_Name: MoveFrontSkill
+  m_EditorClassIdentifier: 
+  SkillCardPrefab: {fileID: 7997353469410248509, guid: d8d7bee76804919468c9720aed31c4f6, type: 3}
+  SkillBallPrefab: {fileID: 7536793383465339226, guid: f49627bd511addc40a1e23e937cb6e1e, type: 3}

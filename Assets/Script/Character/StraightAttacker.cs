@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using GirdSystem;
 using UnityEngine;
 
 namespace Character
@@ -7,16 +8,17 @@ namespace Character
     public class StraightAttacker : BaseGridCharacter
     {
         [SerializeField] private float _moveSpeedPerGrid = .5f;
+        public event Action<StraightAttacker> OnHitTarget;
 
-        protected override void Start()
+
+        protected void Start()
         {
-            base.Start();
             StartCoroutine(MoveFront(new Vector2Int(GridPosition.x, Grid.Height-1)));
-            OnInteractOther += StopSelf;
         }
         
         IEnumerator MoveFront(Vector2Int newPosition)
         { 
+            yield return new WaitForSeconds(_moveSpeedPerGrid);
             int direction = newPosition.y - GridPosition.y;
             while (direction != 0)
             {
@@ -24,15 +26,24 @@ namespace Character
                 direction--;
                 yield return new WaitForSeconds(_moveSpeedPerGrid);
             }
-            Destroy(gameObject);
+            OnHitTarget?.Invoke(this);
+            DestroyGridCharacter();
             
         }
-        
-   
-        private void StopSelf()
+
+        public override void InteractOther(IGridObject target)
         {
-            Destroy(gameObject);
-        }     
+            EnemyGridCharacter enemyGridCharacter = target as EnemyGridCharacter;
+            if (enemyGridCharacter)
+            {
+                OnHitTarget?.Invoke(this);
+                DestroyGridCharacter();
+            }
+            
+        }
+
+
+
     }
     
 }

@@ -34,10 +34,9 @@ namespace Player
                     _uiManager.Show<MainGameUIElement>(false);
                     break;
                 case GameStateType.Success:
-                    break;
                 case GameStateType.Fail:
-                    break;
                 case GameStateType.TrueSuccess:
+                    _uiManager.Show<EndUIElement>(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(gameStateType), gameStateType, null);

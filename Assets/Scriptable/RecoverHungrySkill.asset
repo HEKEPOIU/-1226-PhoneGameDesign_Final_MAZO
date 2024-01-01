@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186e80aedb7a43c78b5d9b2f999b0804, type: 3}
+  m_Name: RecoverHungrySkill
+  m_EditorClassIdentifier: 
+  SkillCardPrefab: {fileID: 5862098920007440884, guid: 68e5b9a0bc6e01b42941781653eaee4f, type: 3}
+  SkillBallPrefab: {fileID: 8475581985040162160, guid: 927d7883f35cf714baf9f54b9d254043, type: 3}

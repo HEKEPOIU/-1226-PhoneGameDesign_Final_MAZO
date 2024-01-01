@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b587b2253a64ee099031cfaa71d8def, type: 3}
+  m_Name: SpawnEnemySkill
+  m_EditorClassIdentifier: 
+  SkillCardPrefab: {fileID: 1164290382859320102, guid: 3808f00d2ebd62c43bbedbe38c156b33, type: 3}
+  SkillBallPrefab: {fileID: 8984311337023931834, guid: bcd4afb77aa57ec4d90e83c551ed2c2f, type: 3}

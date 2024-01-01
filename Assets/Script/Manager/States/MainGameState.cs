@@ -1,7 +1,4 @@
-﻿using System;
-using UIManagement;
-using UIManagement.Element;
-using UnityEngine;
+﻿using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Manager.States
@@ -9,21 +6,24 @@ namespace Manager.States
     public class MainGameState : GameStateBase
     {
         private GameObject _gameRuleTempObj;
-        public GameRule GameRule;
+        public MainGameRule MainGameRule;
         public MainGameState(GameManager manager) : base(manager)
         {
             StateType = GameStateType.MainGame;
         }
 
-        public static event Action<MainGameState> OnMainGameStart;
         public override void OnStateEnter()
         {
             Debug.Log("MainGameState OnStateEnter");
             StartMainGame();
+            Manager.Player.PlayerStates.OnHungryChange += PlayerStatesOnHungryChange;
+            Manager.Player.PlayerStates.OnRoundChange += OnRoundChange;
         }
 
         public override void OnStateExit()
         {
+            Manager.Player.PlayerStates.OnHungryChange -= PlayerStatesOnHungryChange;
+            Manager.Player.PlayerStates.OnRoundChange -= OnRoundChange;
             DestroyGameRule();
         }
 
@@ -35,26 +35,45 @@ namespace Manager.States
         {
             CreateOrFindGameRule();
             OnStateStart?.Invoke(this);
-            OnMainGameStart?.Invoke(this);
+            MainGameRule.SwitchRoundState(MainGameRoundState.EndTurn);
         }
         
         private void CreateOrFindGameRule()
         {
-            GameRule = Object.FindObjectOfType<GameRule>(true);
-            GameRule.enabled = true;
-            if (GameRule) return;
+            MainGameRule = Object.FindObjectOfType<MainGameRule>(true);
+            MainGameRule.enabled = true;
+            if (MainGameRule) return;
             _gameRuleTempObj = new GameObject("GameRule");
-            GameRule = _gameRuleTempObj.AddComponent<GameRule>();
+            MainGameRule = _gameRuleTempObj.AddComponent<MainGameRule>();
         }
         
         private void DestroyGameRule()
         {
-            GameRule.enabled = false;
+            MainGameRule.enabled = false;
             if (_gameRuleTempObj)
             {
                 Object.Destroy(_gameRuleTempObj);
             }
             
+        }
+        
+        
+        private void PlayerStatesOnHungryChange(float current, float max)
+        {
+            bool isDead = MainGameRule.IsStarvedOrFull(current, max);
+            if (isDead)
+            {
+                Manager.SwitchState(GameStateType.Fail);
+            }
+            
+        }
+        
+        private void OnRoundChange(int round)
+        {
+            bool isReachEnd = MainGameRule.IsReachEnd(round);
+            if(!isReachEnd) return;
+            GameStateType endState = MainGameRule.DecideWhichEnd(Manager.Player.PlayerStates.CurrentConquerRate);
+            Manager.SwitchState(endState);
         }
     }
 }

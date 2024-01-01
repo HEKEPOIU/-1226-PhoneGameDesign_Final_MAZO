@@ -26,6 +26,7 @@ namespace GirdSystem
         {
             BaseGridCharacter newCharacter = 
                 Instantiate(prefab, Grid.GetCellCenterPosition(spawnPosition.x, spawnPosition.y), Quaternion.identity);
+            newCharacter.InitGridObject();
             return newCharacter;
         }
 
@@ -33,7 +34,7 @@ namespace GirdSystem
         {
             if (_isGridVisualize == false) return;
 
-            
+#if UNITY_EDITOR
             Handles.color = Color.red;
 
             for (int x = 0; x < _gridSize.x; x++)
@@ -53,6 +54,7 @@ namespace GirdSystem
                 new Vector3(_gridSize.x, _gridSize.y) * _cellSize + _originPosition);
             Handles.DrawLine(new Vector3(_gridSize.x, 0) * _cellSize + _originPosition, 
                 new Vector3(_gridSize.x, _gridSize.y) * _cellSize + _originPosition);
+#endif
         }
     }
 }
