@@ -11,8 +11,11 @@ namespace GirdSystem
         [SerializeField] private Vector3 _originPosition;
         [SerializeField] private Vector2Int _gridSize;
         [SerializeField] private float _cellSize = 10f;
+        
+#if UNITY_EDITOR
         [SerializeField] private bool _isGridVisualize = true;
         [SerializeField] private bool _isGridLabelsVisualize = true;
+#endif
         public BaseGrid<IGridObject> Grid { get; private set; }
 
         protected override void Awake()
@@ -30,11 +33,11 @@ namespace GirdSystem
             return newCharacter;
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (_isGridVisualize == false) return;
 
-#if UNITY_EDITOR
             Handles.color = Color.red;
 
             for (int x = 0; x < _gridSize.x; x++)
@@ -54,7 +57,7 @@ namespace GirdSystem
                 new Vector3(_gridSize.x, _gridSize.y) * _cellSize + _originPosition);
             Handles.DrawLine(new Vector3(_gridSize.x, 0) * _cellSize + _originPosition, 
                 new Vector3(_gridSize.x, _gridSize.y) * _cellSize + _originPosition);
-#endif
         }
+#endif
     }
 }
