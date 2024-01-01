@@ -2,10 +2,11 @@
 
 namespace Character
 {
-    public class EnemyGridCharacterTester : BaseGridCharacter
+    public class EnemyGridCharacter : BaseGridCharacter
     {
         public override void Interact()
         {
+            base.Interact();
             Destroy(gameObject);
         }
     }

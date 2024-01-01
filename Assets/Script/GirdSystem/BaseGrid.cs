@@ -20,24 +20,6 @@ namespace GirdSystem
         
             _gridArray = new T[width, height];
 
-            for (int x = 0; x < _gridArray.GetLength(0); x++)
-            {
-                for (int y = 0; y < _gridArray.GetLength(1); y++)
-                {
-                    UtilsClass.CreateWorldText(
-                        x + "," + y,
-                        null,
-                        GetCellCenterPosition(x, y),
-                        20,
-                        Color.white,
-                        TextAnchor.MiddleCenter
-                    );
-                    Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                    Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
-                }
-            }
-            Debug.DrawLine(GetWorldPosition(0, Height), GetWorldPosition(Width, Height), Color.white, 100f);
-            Debug.DrawLine(GetWorldPosition(Width, 0), GetWorldPosition(Width, Height), Color.white, 100f);
         }
     
         public Vector3 GetWorldPosition(int x, int y)

@@ -1,8 +1,12 @@
-﻿namespace Manager.States
+﻿using System;
+
+namespace Manager.States
 {
     public abstract class GameStateBase
     {
         protected GameManager Manager;
+        public GameStateType StateType { get; protected set; }
+        public static Action<GameStateBase> OnStateStart; 
 
         protected GameStateBase(GameManager manager)
         {

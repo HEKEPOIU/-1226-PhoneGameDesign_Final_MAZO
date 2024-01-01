@@ -1,4 +1,6 @@
-﻿using GirdSystem;
+﻿using System;
+using GirdSystem;
+using Player;
 using UnityEngine;
 
 namespace Character
@@ -7,32 +9,35 @@ namespace Character
     {
         public BaseGrid<IGridObject> Grid { get; set; }
         public Vector2Int GridPosition { get; set; }
+        public event Action OnDeath;
+        protected event Action OnInteractOther;
 
-
-        public void Move(Vector2Int newPosition)
+        public virtual void Move(Vector2Int newPosition)
         {
             IGridObject newPositionObj = Grid.GetValue(newPosition.x, newPosition.y);
             if (newPositionObj != null)
             {
                 newPositionObj.Interact();
+                OnInteractOther?.Invoke();
             }
             UpdatePosition(newPosition);
             
         }
-        protected void Start()
+        protected virtual void Start()
         {
             InitGridObject();
         }
 
-        public abstract void Interact();
-        protected virtual void InitGridObject()
+        public virtual void Interact(){}
+
+        public virtual void InitGridObject()
         {
             Grid = GridGenerator.Instance.Grid;
             Grid.GetGridXY(transform.position, out int x, out int y);
-            UpdatePosition(new Vector2Int(x, y));
+            Move(new Vector2Int(x, y));
         }
         
-        protected void UpdatePosition(Vector2Int newPosition)
+        protected virtual void UpdatePosition(Vector2Int newPosition)
         {
             if (Grid.IsInGrid(newPosition.x, newPosition.y) == false)
             {
@@ -49,6 +54,17 @@ namespace Character
             
         }
         
-        
+        private void RemoveFromGrid()
+        {
+            Grid.SetValue(GridPosition.x, GridPosition.y, null);
+        }
+
+        protected void OnDestroy()
+        {
+            RemoveFromGrid();
+            OnDeath?.Invoke();
+            OnDeath = null;
+            OnInteractOther = null;
+        }
     }
 }

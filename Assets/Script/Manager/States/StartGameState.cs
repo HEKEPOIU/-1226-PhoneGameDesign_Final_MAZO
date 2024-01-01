@@ -1,24 +1,26 @@
-﻿namespace Manager.States
+﻿using UnityEngine;
+
+namespace Manager.States
 {
     public class StartGameState : GameStateBase
     {
         public StartGameState(GameManager manager) : base(manager)
         {
+            StateType = GameStateType.Start;
         }
 
         public override void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("StartGameState");
+            OnStateStart?.Invoke(this);
         }
 
         public override void OnStateExit()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnStateUpdate()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

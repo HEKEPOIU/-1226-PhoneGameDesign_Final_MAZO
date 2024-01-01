@@ -1,16 +1,50 @@
 ﻿using System;
+using Manager;
 using UIManagement;
+using UIManagement.Element;
 using UnityEngine;
 
 namespace Player
 {
     public class PlayerHUD : MonoBehaviour
     {
-        private ViewManager _viewManager;
+        private UIManager _uiManager;
+        [HideInInspector] public Player Player;
 
         private void Awake()
         {
-            _viewManager = GetComponent<ViewManager>();
+            Initialize(Player);
         }
+        
+        public void Initialize(Player player)
+        {
+            if (!_uiManager) _uiManager = FindObjectOfType<UIManager>(true);
+            Player = player;
+            _uiManager.OwnerPlayer = Player;
+        }
+        
+        public void RestUI(GameStateType gameStateType)
+        {
+            switch (gameStateType)
+            {
+                case GameStateType.Start:
+                    _uiManager.Show<StartUIElement>(false);
+                    break;
+                case GameStateType.MainGame:
+                    _uiManager.Show<MainGameUIElement>(false);
+                    break;
+                case GameStateType.Success:
+                    break;
+                case GameStateType.Fail:
+                    break;
+                case GameStateType.TrueSuccess:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(gameStateType), gameStateType, null);
+            }
+            
+        }
+        
+        
     }
 }

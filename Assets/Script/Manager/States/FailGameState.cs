@@ -4,6 +4,7 @@
     {
         public FailGameState(GameManager manager) : base(manager)
         {
+            StateType = GameStateType.Fail;
         }
     }
 }

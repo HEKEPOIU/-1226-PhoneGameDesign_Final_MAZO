@@ -4,6 +4,7 @@
     {
         public TrueSuccessGameState(GameManager manager) : base(manager)
         {
+            StateType = GameStateType.TrueSuccess;
         }
     }
 }

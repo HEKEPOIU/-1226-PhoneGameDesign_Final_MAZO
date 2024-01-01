@@ -1,4 +1,5 @@
 ﻿using System;
+using Character;
 using Singleton;
 using UnityEditor;
 using UnityEngine;
@@ -19,6 +20,13 @@ namespace GirdSystem
             base.Awake();
             Grid = new BaseGrid<IGridObject>(_gridSize.x, _gridSize.y, _cellSize, _originPosition);
         
+        }
+        
+        public BaseGridCharacter SpawnGridCharacter(BaseGridCharacter prefab, Vector2Int spawnPosition)
+        {
+            BaseGridCharacter newCharacter = 
+                Instantiate(prefab, Grid.GetCellCenterPosition(spawnPosition.x, spawnPosition.y), Quaternion.identity);
+            return newCharacter;
         }
 
         private void OnDrawGizmos()

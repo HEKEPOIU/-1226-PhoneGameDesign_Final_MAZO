@@ -8,6 +8,7 @@
 
         public override void OnStateEnter()
         {
+            OnStateStart?.Invoke(this);
         }
         
         public override void OnStateExit()
