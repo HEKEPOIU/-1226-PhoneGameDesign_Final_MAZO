@@ -26,7 +26,6 @@ namespace UIManagement.Views
         private Button _moveButton;
         private GameObject _spawnObjTemp;
         private GameObject _spawnGragonBollObjTemp;
-
         
         private RectTransform _maxRangeTransform;
         private RectTransform _minRangeTransform;

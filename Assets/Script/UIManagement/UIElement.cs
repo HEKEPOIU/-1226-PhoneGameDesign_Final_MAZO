@@ -1,7 +1,6 @@
 ﻿using UIManagement.Controller;
 using UIManagement.Views;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UIManagement
 {
